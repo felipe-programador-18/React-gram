@@ -1,5 +1,5 @@
-const mongoose = require("mongoose")
-const {Schema} =  mongoose
+const mongoose = require("mongoose");
+const {Schema} =  mongoose;
 
 //here i define kind of that go receive in date shape!
 const userSchema = new Schema({
@@ -15,4 +15,4 @@ const userSchema = new Schema({
 
 //defined user model
 const User = mongoose.model("User", userSchema)
-module.export = User
+module.exports = User;

@@ -18,4 +18,4 @@ const userPhotoSchema = new Schema({
 const PhotoUser = new mongoose.model("Photo", userPhotoSchema)
 //defined user photouser 
 
-module.export = PhotoUser ;
+module.exports = PhotoUser ;
