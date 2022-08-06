@@ -16,7 +16,6 @@ const AuthGuard = async (req, res, next) =>{
     try{
       const verified = await jwt.verify(token, jwtSecret);
       req.user = await User.findById(verified.id).select("-password")
-      console.log("teste authGuard", req.user)
       next();
     }catch(error){
        res.status(400).json({errors:['Token inválido.']})
