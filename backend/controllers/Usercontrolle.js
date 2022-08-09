@@ -1,6 +1,8 @@
 const User = require("../models/User")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken");
+const { default: mongoose } = require("mongoose");
+
 
 
 const jwtSecret = process.env.JWT_SECRET;
@@ -87,27 +89,59 @@ const login = async  (req,res) => {
 // create function to get currently logged
 
 const getCurrentUser = async  (req, res) => {
-   //const {user}= await req.user
-   //console.log("teest user", user)
    try{
     const user = await req.user
+    console.log("user testing", user)
     res.status(200).json(user)
-    getCurrentUser()
+
    }catch(err){
     console.log("error here", err)
    }
-   //res.status(200).json(user);
+
 
 }
+
 
 //update in users // 
 const update = async (req,res) => {
- res.send("Update")
+  try{
+    const {name, password, bio} = req.body;
+    
+    let profileImage = null ;
+    if(req.file){
+      profileImage = req.file.filename
+    }
+
+    const reqUser = req.user
+    const user = await User.findOne( mongoose.Types.ObjectId(reqUser._id)).select("-password")
+    console.log('testing my user here', user)
+    
+    if(name){
+        user.name = name
+    }
+
+    if(password){
+       const salt = await bcrypt.genSalt();
+       const passwordHash = await bcrypt.hash(password,salt)
+       user.password = passwordHash
+    }
+
+    if(profileImage){
+       user.profileImage = profileImage
+    } 
+   
+    if(bio){
+       user.bio = bio 
+    }
+    
+    await user.save()
+    
+    res.status(200).json(user)
+  }catch(err){
+    console.log("have error here", err)
+  }
+
 }
-
-
-
-
 
 
 module.exports = {

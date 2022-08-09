@@ -5,7 +5,7 @@ const path = require("path")
 const imageStore = multer.diskStorage({
     destination: (req, file, cb) => {
          
-        let folder = ''
+        let folder =""
         if(req.baseUrl.includes("users")){
            folder = "users"
         }else if (req.baseUrl.includes("photos")) {
@@ -26,7 +26,7 @@ const imageStore = multer.diskStorage({
 const uploadImage = multer({
     storage: imageStore,
     fileFilter(req, file, cb){
-     if(file.originalname.match(/\.(png|jpg)$/)){
+     if(!file.originalname.match(/\.(png|jpg)$/)){
       
         //upload of jpg and png file
         
