@@ -1,4 +1,5 @@
-const PhotoUser = require("../models/photo")
+const PhotoUser = require("../models/Photo")
+const User = require("../models/User")
 const mongoose = require("mongoose")
 
 
@@ -6,12 +7,29 @@ const mongoose = require("mongoose")
 
 const InsertPhoto = async (req,res) => {
   const{title} = req.body;
- console.log("test", title)
   const image =  req.file.filename
-  console.log("test fdsfs", image)
-  console.log(req.body)
    
-  res.send("Photo inserted!!")
+    const reqUser = req.user
+    const user = await User.findById(reqUser._id)
+    console.log("my users here", user)
+
+    const newPhoto = await PhotoUser.create({
+     title,
+     image,
+     userId: user._id,
+     userName: user.name,
+    })
+
+    //if picture was created with sucefully return dates about picture!!
+    if(!newPhoto){
+        res.status(422).json({
+        errors:["Houve um problema, por favor tente mais tarde !!"]
+        })
+    }
+
+ 
+    res.status(201).json(newPhoto)
+
 }
 
 
