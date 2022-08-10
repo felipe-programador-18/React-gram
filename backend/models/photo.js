@@ -15,7 +15,7 @@ const userPhotoSchema = new Schema({
  }
 )
 
-const PhotoUser = new mongoose.model("Photo", userPhotoSchema)
+const PhotoUser = mongoose.model("Photo", userPhotoSchema)
 //defined user photouser 
 
 module.exports = PhotoUser ;
