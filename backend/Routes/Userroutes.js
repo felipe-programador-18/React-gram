@@ -29,6 +29,7 @@ router.get("/:id",getUserById)
 // this use i need agreed here 
 router.use("/api/users/register", register)
 router.use("api/users/login",login)
+
 //router.use("api/users/profile", getCurrentUser)
 
 
