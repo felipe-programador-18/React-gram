@@ -1,5 +1,10 @@
 const {body} = require("express-validator")
 
+//removed about bodyparser//
+
+var bodyParser = require('body-parser')
+bodyParser.json([body])
+
 const photoInsertValidation = () =>{
  
     return [
