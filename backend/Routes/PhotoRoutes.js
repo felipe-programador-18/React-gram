@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router();
 
 //controlled
-const { InsertPhoto, DeletedPicture, GetAllPhoto, GetUserPhoto } = require("../controllers/Photocontrollers")
+const { InsertPhoto, DeletedPicture, GetAllPhoto, GetUserPhoto,  GetUserId } = require("../controllers/Photocontrollers")
 
 
 //middleware
@@ -22,7 +22,7 @@ router.post("/" ,authGuard,
 router.delete("/:id" ,authGuard, DeletedPicture ) 
 router.get("/", authGuard, GetAllPhoto )
 router.get("/user/:id", authGuard, GetUserPhoto )
-
+router.get("/:id", authGuard,  GetUserId )
 
 
 
