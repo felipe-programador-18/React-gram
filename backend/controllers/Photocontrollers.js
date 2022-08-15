@@ -83,7 +83,6 @@ const GetAllPhoto = async (req,res) =>{
 }
 
 //get user photos
-
 const GetUserPhoto = async(req, res) => {
   const {id}= req.params ;
 
@@ -92,12 +91,36 @@ const GetUserPhoto = async(req, res) => {
   .sort([["createdAt", -1]]).exec()
 
   return res.status(200).json(photo)
+}
+
+// create function to get UserId of my users
+
+const GetUserId = async(req, res) => {
+  
+  const {id} = req.params
+  console.log("testing my id", id)
+
+  try{
+    const photo= await PhotoUser.findById(mongoose.Types.ObjectId(id))
+    // check up if exist photo
+    if(!photo){
+      res.status(404).json({errors:["Foto não encontrada !!"]})
+      return;
+    } 
+    
+    res.status(200).json(photo)
+  }catch(err){
+   res.status(422).json({errors:["Ocorreu um erro, por favor tente mais tarde"]})
+  }
+  
 
 }
+
 
 module.exports = {
     InsertPhoto,
     DeletedPicture,
     GetAllPhoto,
-    GetUserPhoto
+    GetUserPhoto,
+    GetUserId 
 }
