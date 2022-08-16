@@ -147,9 +147,93 @@ const UpdatePhoto = async (req,res) => {
 
   await photo.save()
   
-  res.status(200).json({photo, message:"Photo atualizada com sucesso!" })
-    
+  res.status(200).json({photo, message:"Photo atualizada com sucesso!" })    
 }
+
+const LikeFunctionality = async(req, res) => {
+  const {id}= req.params;
+  const reqUser = req.user ;
+  try{
+    const photo = await PhotoUser.findById(id)
+    //verify with user if not exist
+    if(!photo){
+      res.status(404).json({erros: ['Foto Não encontrada!']})
+      return ;
+    }
+    
+    //verify if my user liked picture
+    if(photo.likes.includes(reqUser._id)){
+      res.status(422).json({errors:["Voce já curtiu a foto"]})
+      return;
+    }
+
+    // put in user in likes array
+   photo.likes.push(reqUser._id)
+   photo.save()
+
+   res
+   .status(200)
+   .json({photoId:id, userId:reqUser._id ,message:"A foto foi curtida." })
+
+  }catch(err){
+    res.status(422).json({errors:["Ocorreu erro, aqui tente novamente mais tarde"]})
+    return;
+  }
+
+}
+
+const createdComments = async(req,res) => {
+  const {id} = req.params;
+  const {comment } = req.body;
+  console.log("have somethings here ??", comment)
+  const reqUser= req.user ;
+  
+  try{
+    const user = await User.findById(reqUser._id)
+    const photo = await PhotoUser.findById(id)
+    
+    if(!photo){
+      res.status(404).json({errors:["Foto não existe !"]})
+    return ;
+    }
+     
+    const userComment = {
+      comment,
+      userName : user.name,
+      userImage: user.profileImage,
+      userId : user._id
+    }
+   
+    photo.comments.push(userComment)
+   
+   await photo.save()
+
+    res.status(200).json({comment:userComment,
+     message:"comentário foi adicionado com sucesso"})
+
+  }catch(err){
+    res.status(422).json({errors:["Erro ao fazer o comentário, por favor tente mais tarde!!"]})
+    return ;
+  }
+}
+
+
+// search photo by title 
+
+const searchPhoto = async (req,res) => {
+  const {q} = req.query ;
+  console.log("my q parameters",q)
+  
+  const photos = await PhotoUser.find({title: new RegExp(q,'i')}).exec()
+  console.log('my photos here', photos)
+
+  res.status(200).json({photos})  
+
+}
+
+
+
+
 
 
 
@@ -159,5 +243,8 @@ module.exports = {
     GetAllPhoto,
     GetUserPhoto,
     GetUserId,
-    UpdatePhoto 
+    UpdatePhoto,
+    LikeFunctionality,
+    createdComments,
+    searchPhoto 
 }
