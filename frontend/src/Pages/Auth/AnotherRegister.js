@@ -10,17 +10,26 @@ const RegisterAnother = () => {
   const [password,setPassword] = useState("")
   const [corfirmPass , setConfirmPass] = useState("")
    
-  const [formError, setError] = useState(false)
   
   //const navigate = Navigate()
 
   
   const HandSubmit =(e) => {
     e.preventDefault()
+    setName("")
+    setEmail("")
+    setPassword("")
+    setConfirmPass("")
+    
 
-
-
-
+    const user = {
+      name,
+      email,
+      password,
+      corfirmPass
+    }
+     
+   console.log("my user", user)
   // navigate("/")
   }
    
@@ -66,7 +75,7 @@ const RegisterAnother = () => {
             type='text'
             placeholder='Confirme sua senha.'
             value={corfirmPass} 
-            onChange={(e) => setName(e.target.value)} 
+            onChange={(e) => setConfirmPass(e.target.value)} 
             required
             />
           
