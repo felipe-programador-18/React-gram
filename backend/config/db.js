@@ -1,7 +1,6 @@
 const mongoose = require("mongoose")
 
 //create connection about mongodeb
-
 const dbUser =process.env.DB_USER;
 const dbPassoword = process.env.DB_SENHA;
 
