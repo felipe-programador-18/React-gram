@@ -13,7 +13,7 @@ import {store} from './story'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider story ={store} >
+    <Provider store ={store} >
     <App />
     </Provider>
   </React.StrictMode>
