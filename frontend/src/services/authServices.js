@@ -14,11 +14,12 @@ const res = await fetch(api + "/users/register", config)
  if(res){
  localStorage.setItem("user", JSON.stringify(res))
  }
+ 
+ return res;
 
-  } catch (error) {
+ } catch (error) {
     console.log(error)
-  }
-
+ }
 }
 
 const authService = {
