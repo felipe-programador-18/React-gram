@@ -3,7 +3,6 @@ import { api ,  requestConf } from '../utils/config'
 //register user in system!!!
 const registeUser =  async (data) =>{
  const config = requestConf("POST", data)
-
 try {
     
 const res = await fetch(api + "/users/register", config)
@@ -14,17 +13,24 @@ const res = await fetch(api + "/users/register", config)
  if(res){
  localStorage.setItem("user", JSON.stringify(res))
  }
- 
  return res;
-
- } catch (error) {
+ 
+} catch (error) {
     console.log(error)
  }
 }
 
-const authService = {
-    registeUser
+// logout and user
+const logout = () => {
+  localStorage.removeItem('user')
 }
 
+
+
+
+const authService = {
+    registeUser,
+    logout
+}
 
 export default authService
