@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import "./auth.css"
 import { Link, Navigate } from 'react-router-dom'
+import Message from '../../Component/message'
 
 
 //redux
@@ -58,7 +59,7 @@ const RegisterAnother = () => {
         <p>Cadastre-se para ver fotos dos seus amigos.</p>
         <form onSubmit={HandSubmit} >
           <label> Seu Nome:</label>
-          <input name='name'
+          <input 
             type='text'
             placeholder='Nome'
             value={name} 
@@ -67,8 +68,8 @@ const RegisterAnother = () => {
             />
           
           <label> Seu email:</label>
-          <input name='email'
-            type='text'
+          <input 
+            type='email'
             placeholder='E-mail'
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
@@ -76,8 +77,8 @@ const RegisterAnother = () => {
             />
 
          <label> Defina uma Senha:</label>
-          <input name='password'
-            type='text'
+          <input 
+            type='password'
             placeholder='Password'
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
@@ -85,16 +86,22 @@ const RegisterAnother = () => {
             />
 
           <label> Confirma sua Senha:</label>
-          <input name='password'
-            type='text'
+          <input  
+            type='password'
             placeholder='Confirme sua senha.'
             value={confirmPassword} 
             onChange={(e) => setConfirmPass(e.target.value)} 
             required
             />
           
-          <input type="submit" value='cadastrar' />
+         {!loading && <input type="submit" value='cadastrar' />   }
+
+         {loading && (<input type="submit" value='Aguarde....' disabled />) } 
+
+         {error &&  <Message msg={error} type='error' /> }
+        
         </form>
+
         
         <p>Já possui conta? <Link to='/login'>Click aqui.</Link></p>
 
