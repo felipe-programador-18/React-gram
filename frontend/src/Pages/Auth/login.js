@@ -1,27 +1,36 @@
 import { useState, useEffect } from "react"
 import "./auth.css"
-import { useNavigate, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
+import Message from '../../Component/message'
 
 //Redux!!
 import { useSelector, useDispatch } from "react-redux"
 
+import { login, reset } from "../../slices/authSlice"
 
 const LoginUser = () => {
     const [email, setEmail] = useState("")
     const[password, setPassword] = useState("")
 
-    const navigate = useNavigate()
+ //   const navigate = useNavigate()
+    const dispatch = useDispatch()  
+    const {loading, error} = useSelector((state) => state.auth) 
+
 
     const HandSumit = (e) => {
-        e.prevent.Default()
-        setEmail("")
-        setPassword("")
-        navigate("/")
+        e.preventDefault()
+        const user = {
+            email,
+            password
+        }
+        console.log(user)
+        dispatch(login(user))
     } 
-
+    
+   // clean all auth state!! 
    useEffect(() => {
-
-   },[])
+    dispatch(reset()) 
+   },[dispatch])
 
 
     return(<div id="login" > 
@@ -31,7 +40,7 @@ const LoginUser = () => {
     <form  onSubmit={HandSumit} >
         <label>Email:
             <input 
-            type='email' 
+            type='text' 
             placeholder="E-mail" 
             value={email || "" } onChange={(e) =>  setEmail(e.target.value) } />
         </label>
@@ -43,7 +52,13 @@ const LoginUser = () => {
             onChange={(e) =>  setPassword(e.target.value)}
             />
         </label>
-      <input type='submit'  value='entrar' />
+      
+     {!loading && <input type='submit'  value='entrar' />}
+     {loading && <input type='submit'  value='Aguarde...' disabled /> }
+      
+      {error &&  <Message msg={error} type='error' />  }
+
+
     </form>
 
     <p>Não tem conta?  <Link to='/register'>Clique aqui.</Link> </p>
