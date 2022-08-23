@@ -63,7 +63,7 @@ const register = async (req, res) => {
 const login = async  (req,res) => {
    const {email, password} = req.body ;
     
-   const user = await User.findOne({email})
+   const user = await User.findOne({ email })
    // check if my users exist 
    console.log("find users logeed", user)
    if(!user){
@@ -73,7 +73,7 @@ const login = async  (req,res) => {
 
    //check if password methods
    if(!(await bcrypt.compare(password, user.password) )){
-    res.status(422).json({erros:['Senha inválida.']})
+    res.status(422).json({errors:['Senha inválida.']})
     return
    }
     
@@ -149,31 +149,24 @@ const getUserById = async (req, res) => {
    
   const {id}= req.params;
   console.log("what have here", id) 
-     try{
-      const user = await User.findById(mongoose.Types.ObjectId(id)).select("-password")
-       
-      console.log("my user is ", user)
-      if(!user){
-        res.status(404).json({errors:['Usuário não   encontrado']})
-       return
-      }
-      res.status(200).json(user);
+  
+  try{
+    const user = await User.findById(mongoose.Types.ObjectId(id)).select("-password")
+     
+    console.log("my user is ", user)
+    if(!user){
+      res.status(404).json({errors:['Usuário não   encontrado']})
+     return
+    }
+    res.status(200).json(user);
 
-     }catch(error){
-       res.status(404).json({errors:['Usuário não está aqui']})
-       return;
+   }catch(error){
+     res.status(404).json({errors:['Usuário não está aqui']})
+     return;
 
-     }
-      
-
-
-
+   }
+    
 }
-
-
-
-
-
 
 
 module.exports = {
