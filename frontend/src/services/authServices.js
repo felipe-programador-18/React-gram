@@ -10,7 +10,7 @@ const res = await fetch(api + "/users/register", config)
 .catch((err) => err)
    
  // if me  wanna res i get receive user !!
- if(res){
+ if(res._id){
  localStorage.setItem("user", JSON.stringify(res))
  }
  return res;
@@ -27,18 +27,17 @@ const logout = () => {
 
 // sing in login users!!
 const login = async (data) => {
-  const config = requestConf("POST", data)
-  
+  const config = requestConf("POST" , data)
  try {
-  const res = await fetch(api + "/users/login" + config)
+  const res = await fetch(api + "/users/login", config)
   .then((res) => res.json())
   .catch((err) => err)
 
-  if(res){
+  if(res._id){
     localStorage.setItem("user", JSON.stringify(res))
   }
   return res;
-  
+
  } catch (error) {
   console.log(error)
  }
