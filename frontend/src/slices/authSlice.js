@@ -12,7 +12,7 @@ const initialState ={
 }
 
 //register user and sing in!!
-export const register = createAsyncThunk("auth/register",
+export const register =  createAsyncThunk("auth/register",
  async (user, thunkAPI) =>{
   
     const data = await authService.registeUser(user)
@@ -28,7 +28,7 @@ export const register = createAsyncThunk("auth/register",
 export const logout =createAsyncThunk("auth/logout", async () =>{ await authService.logout()})
 
 // sing in login
-export const login = createAsyncThunk("auth/login",
+export const login = createAsyncThunk("auth/login" ,
  async (user, thunkAPI) =>{
   
     const data = await authService.login(user)
@@ -37,7 +37,7 @@ export const login = createAsyncThunk("auth/login",
     return thunkAPI.rejectWithValue(data.errors[0])
     }
   return data;
- })
+})
 
 
 
@@ -88,5 +88,5 @@ export const authSlice = createSlice({
 })
 
 
-export const {reset} = authSlice.actions;
+export const { reset } = authSlice.actions;
 export default authSlice.reducer;
