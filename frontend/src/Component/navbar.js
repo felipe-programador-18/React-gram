@@ -14,20 +14,16 @@ import { logout, reset } from '../slices/authSlice'
 
 const Navbar = () => {
     
-  const {auth} = useAuth()
+  const { auth } = useAuth()
+  const { user } = useSelector((state) => state.auth)
 
-  const {user} = useSelector((state) => state.auth)
-  console.log("my user selector here", user)
   
-
   const navigate = useNavigate()
   const dispatch = useDispatch()
   
   const HandLogount = () => {
     dispatch(logout())
     dispatch(reset())
-
-    
     navigate('/login')
   }
 
