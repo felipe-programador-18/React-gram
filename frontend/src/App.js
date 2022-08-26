@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-import { useEffect } from 'react';
+
 
 
 // hook
@@ -17,6 +17,7 @@ import RegisterAnother from './Pages/Auth/AnotherRegister';
 //components!!
 import Navbar from './Component/navbar';
 import Footer from './Component/footer';
+import Edit from './Pages/Editprofile/edit';
 
 
 
@@ -42,11 +43,14 @@ function App() {
         <div className='container' > 
          <Routes>       
            <Route path='/' element={ auth ? <Home/> : <Navigate to='/login' /> } />
+           
+           <Route path='/profile' element={auth ? <Edit/> : <Navigate to='/login'/>   }  /> 
         
            <Route path='/login' element={ !auth ?  <LoginUser/> : <Navigate to='/' />} />
            
            <Route path='/register' element={!auth ? <RegisterAnother/> : <Navigate to='/'/> }   />
      
+
          </Routes> 
        </div>
        
