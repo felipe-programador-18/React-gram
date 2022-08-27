@@ -5,8 +5,8 @@ import userService from "../services/userService";
 const initialState ={
     user:{},
     error: false,
-    loading: false,
     success: false,
+    loading: false,
     message : null
 }
 
@@ -39,7 +39,7 @@ export const updateProfile = createAsyncThunk("user/update",
 
 
 export const userSlice = createSlice({
-    name:'user',
+    name:"user",
     initialState,
     reducers:{
     resetMessage : (state) => {
@@ -51,7 +51,7 @@ export const userSlice = createSlice({
         builder
         .addCase(profile.pending, (state) => {
             state.loading = true;
-            state.error = false;
+            state.error = null;
         }).addCase(profile.fulfilled, (state,action) => {
             state.loading = false;
             state.success = true;
@@ -69,7 +69,7 @@ export const userSlice = createSlice({
         }).addCase(updateProfile.rejected, (state,action) => {
             state.loading = false;
             state.error = action.payload;
-            state.user = null ;
+            state.user =null;
         })
     }
 })
