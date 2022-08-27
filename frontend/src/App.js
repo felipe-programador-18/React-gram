@@ -11,13 +11,14 @@ import { useAuth } from './hoock/useAuth';
 import Home from './Pages/Home/Home';
 import LoginUser from './Pages/Auth/login';
 import RegisterAnother from './Pages/Auth/AnotherRegister';
+import ProfileUser from './Pages/Profile/profile.user';
+import Edit from './Pages/Editprofile/edit';
 
 
 
 //components!!
 import Navbar from './Component/navbar';
 import Footer from './Component/footer';
-import Edit from './Pages/Editprofile/edit';
 
 
 
@@ -46,10 +47,12 @@ function App() {
            
            <Route path='/profile' element={auth ? <Edit/> : <Navigate to='/login'/>   }  /> 
         
+           <Route  path='/users/:id' element={ auth ? <ProfileUser/> : <Navigate to="/login" /> }  />
+
            <Route path='/login' element={ !auth ?  <LoginUser/> : <Navigate to='/' />} />
            
            <Route path='/register' element={!auth ? <RegisterAnother/> : <Navigate to='/'/> }   />
-     
+           
 
          </Routes> 
        </div>
