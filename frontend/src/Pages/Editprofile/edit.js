@@ -7,7 +7,7 @@ import { upload } from '../../utils/config'
 import { useSelector, useDispatch } from 'react-redux'
 
 //slice here
-import { profile, resetMessage } from '../../slices/userSlice'
+import { profile, resetMessage, updateProfile } from '../../slices/userSlice'
 import Message from '../../Component/message'
 
 
@@ -16,7 +16,7 @@ const Edit = () => {
   const dispatch = useDispatch()
 
   const {user,message,loading,error} = useSelector((state) => state.user)
-  
+
   const [name, setName] = useState("")
   const [email, setEmail]= useState("") 
   const [password, setPassword] = useState("")
@@ -41,15 +41,43 @@ const Edit = () => {
   },[user])
 
   
-  const HandSubit = (e) => {
+  const HandSubit = async (e) => {
     e.preventDefault()
+    
+    const userData ={
+      name,
+      
+    }
+
+    if(profileImage){
+      userData.profileImage = profileImage;
+    }
+    if(bio) {
+      userData.bio = bio;
+    } 
+    
+    if(password){
+      userData.password = password;
+    }
+     
+    //build form data
+    const formData = new FormData()
+    const userFormDate =  Object.keys(userData).forEach((key) => formData.append(key, userData[key] ) )
+    
+    formData.append("user", userFormDate)
+    await dispatch(updateProfile(formData))
+    
+    // later two second be disappear delay
+    setTimeout(() => {
+    dispatch(resetMessage());
+    },2000)
+
   }
 
   const HandleFile = (e) => {
     // image preview
     const image = e.target.files[0]
      setPreviewImage(image)
-     
      // set Image state
      setImageProfile(image)
   }
@@ -86,7 +114,6 @@ const Edit = () => {
        <label>
          <span>Imagem do Perfil:</span>
          <input type="file" 
-
          onChange={HandleFile}
          /> 
        </label>    
@@ -110,8 +137,13 @@ const Edit = () => {
              onChange={(e) => setPassword(e.target.value)}
              />
         </label>
-        <input type='submit' value='Atualizar'  />
-    
+      
+     {!loading && <input type='submit'  value='Atualizar' />}
+     {loading && <input type='submit'  value='Aguarde...' disabled /> } 
+     {error &&  <Message msg={error} type='error' />  }
+
+      {message && <Message msg={message} type='success'/> } 
+
     </form>
     </div> )
 }
