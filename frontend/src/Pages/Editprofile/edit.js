@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import "./edit.css"
 
 // config
-import { upload } from '../../utils/config'
+import { uploads } from '../../utils/config'
 //redux
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -46,7 +46,6 @@ const Edit = () => {
     
     const userData ={
       name,
-      
     }
 
     if(profileImage){
@@ -92,16 +91,16 @@ const Edit = () => {
     {(user.profileImage || previewImage) && ( 
       <img className='profile-image' 
        src={ previewImage ? URL.createObjectURL(previewImage) :
-             `${upload}/users/${user.profileImage}` 
+             `${uploads}/users/${user.profileImage}` 
         }
         alt={user.name}/>
     ) }
 
     <form onSubmit={HandSubit}>
       <input type="text"
-       placeholder='Name' 
-       value={name || ""}   
+       placeholder='Nome' 
        onChange={(e) => setName(e.target.value)}
+       value={name || ""}   
        />
 
       <input type="email"
@@ -123,8 +122,8 @@ const Edit = () => {
         <input 
          type="text"
          placeholder='Descrição do Perfil.'
-         value={bio || ""}
          onChange={(e) => setBio(e.target.value)}
+         value={bio || ""}
          />
        </label>
         
