@@ -83,7 +83,7 @@ export const authSlice = createSlice({
             console.log(state, action)
             state.loading = false;
             state.error = action.payload;
-            state.user ={} ;
+            state.user =null;
         })
     }
 })
