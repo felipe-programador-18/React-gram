@@ -7,7 +7,7 @@ const initialState ={
     error: false,
     success: false,
     loading: false,
-    message : null
+    message : null,
 }
 
 // creating function that get user
@@ -35,6 +35,17 @@ export const updateProfile = createAsyncThunk("user/update",
 }
 
 )
+
+// created slice to get user id
+// public router!!
+export const getUserId =  createAsyncThunk("user/get",
+async(id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+    const data = await userService.getUserDetails(id, token)
+    return data;
+})
+
+
 
 
 
@@ -69,7 +80,15 @@ export const userSlice = createSlice({
         }).addCase(updateProfile.rejected, (state,action) => {
             state.loading = false;
             state.error = action.payload;
-            state.user =null;
+            state.user ={};
+        }).addCase(getUserId.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        }).addCase(getUserId.fulfilled, (state,action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            state.user = action.payload;
         })
     }
 })
