@@ -8,7 +8,6 @@ const { default: mongoose } = require("mongoose");
 const jwtSecret = process.env.JWT_SECRET;
 
 //create function to genenate jwt to acess in webpage
-
 const generateToken = (id) => {
     return jwt.sign({id},
          jwtSecret,{
@@ -89,15 +88,9 @@ const login = async  (req,res) => {
 // create function to get currently logged
 
 const getCurrentUser = async  (req, res) => {
-   try{
     const user = await req.user
     console.log("user testing", user)
     res.status(200).json(user)
-
-   }catch(err){
-    console.log("error here", err)
-   }
-
 
 }
 
@@ -113,11 +106,13 @@ const update = async (req,res) => {
     }
 
     const reqUser = req.user
-    const user = await User.findOne( mongoose.Types.ObjectId(reqUser._id)).select("-password")
-    console.log('testing my user here', user)
+    const user = await User.findById(mongoose.Types.ObjectId(reqUser._id)).select(
+      "-password"
+    );
+    console.log('USER BACKEND', user)
     
     if(name){
-        user.name = name
+        user.name= name
     }
 
     if(password){
