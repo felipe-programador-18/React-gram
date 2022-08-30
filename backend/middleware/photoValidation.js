@@ -15,7 +15,7 @@ const photoInsertValidation = () =>{
         .isString()
         .withMessage("o titulo é obrigatório.")
         .isLength({min:6})
-        .withMessage("o titulo precisa ter pelo menos 6, caracteres!!"),
+        .withMessage("o titulo precisa ter pelo menos 6 caracteres!!"),
 
         body("image")
         .custom((value, {req} ) => {
@@ -35,7 +35,7 @@ const photoUpdateValidation = () => {
         .isString()
         .withMessage("O título é obrigatório.")
         .isLength({min:6})
-        .withMessage("o titulo precisa ter pelo menos 6, caracteres!!"),
+        .withMessage("o titulo precisa ter pelo menos 6 caracteres!!"),
     ]
 }
 
