@@ -4,7 +4,6 @@ const mongoose = require("mongoose")
 
 
 // Insert picture User here!!
-
 const InsertPhoto = async (req,res) => {
   const{title} = req.body;
   const image =  req.file.filename
@@ -27,7 +26,6 @@ const InsertPhoto = async (req,res) => {
         })
     }
 
- 
     res.status(201).json(newPhoto)
 
 }
