@@ -33,18 +33,46 @@ const getPhotoId =  async (id, token) =>{
 }
 
 //create function to deleted photo!!
+const deletedPhoto = async(id, token) => {
+ 
+  const config = requestConf("DELETE", null, token)
 
-const deletedUser = async() => {
+  try {
+  const res = await fetch(api + "/photos/" +id, config)
+   .then((res) => res.json())
+   .catch((err) => err) 
+   
+   return res;
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+//create functoin to deleted photo
+const EditPhoto = async(data,id, token) => {
+  const config = requestConf("PUT" , data,token)
+  try{
+    const res = await fetch(api + "/photos/" + id , config )
+    .then((res) => res.json())
+    .catch((err) => err)
+
+    return res;
+
+  }catch(err){
+    console.log(err)
+  }
+
 
 }
 
 
 
-
-
 const photoService = {
     publishPhoto,
-    getPhotoId
+    getPhotoId,
+    deletedPhoto,
+    EditPhoto
 }
 
 export default photoService;
