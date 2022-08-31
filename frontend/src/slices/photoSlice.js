@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { useCallback } from "react";
 
 import photoService from "../services/photoService";
 
@@ -28,15 +27,28 @@ export const publishPhoto = createAsyncThunk("photo/publish",
  }
 )
 
-
+//get user photo
 export const getUserPhoto = createAsyncThunk("photo/userphotos",
     async(id, thunkAPI) => {  
      const token = thunkAPI.getState().auth.user.token ;
      const data = await photoService.getPhotoId(id,token)
      return data;
     }
-   )
+)
  
+
+//deleted userphoto
+export const DeletedPhoto =  createAsyncThunk("photo/userdeled",
+async(id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token ;
+    const data =await photoService.deletedPhoto(id,token)
+    
+    if(data.errors){
+        return thunkAPI.rejectWithValue(data.errors[0])
+    }
+    return data;
+})
+
 
 
 export const photoSlice =  createSlice({
@@ -71,6 +83,21 @@ export const photoSlice =  createSlice({
             state.success = true;
             state.error = null;
             state.photos = action.payload;
+        }).addCase(DeletedPhoto.pending, (state) => {
+            state.loading = true;
+            state.error = false;
+        }).addCase(DeletedPhoto.fulfilled, (state,action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            state.photos = state.photos.filter((photo) =>{
+               return photo._id !== action.payload.id
+            })
+            state.message = action.payload.message
+        }).addCase(DeletedPhoto.rejected, (state,action) => {
+            state.loading = false;
+            state.error = action.payload;
+            state.photo ={};
         })
      }   
 })
