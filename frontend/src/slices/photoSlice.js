@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { useCallback } from "react";
 
 import photoService from "../services/photoService";
 
@@ -29,14 +30,13 @@ export const publishPhoto = createAsyncThunk("photo/publish",
 
 
 export const getUserPhoto = createAsyncThunk("photo/userphotos",
- async(id, thunkAPI) => {  
-  const token = thunkAPI.getState().auth.user.token ;
-  const data = await photoService.getPhotoId(id,token)
-  return data;
-
- }
-
- )
+    async(id, thunkAPI) => {  
+     const token = thunkAPI.getState().auth.user.token ;
+     const data = await photoService.getPhotoId(id,token)
+     return data;
+    }
+   )
+ 
 
 
 export const photoSlice =  createSlice({
