@@ -17,19 +17,27 @@ const publishPhoto = async (data, token) => {
 }
 
 
-//create function to getImage 
-const getPhotoId = async (id, token) =>{
-   const config = requestConf("GET" , null, token) 
-    try {
-      const res = await fetch(api + "/photos/user/" + id , config)
-      .then((res) => res.json())
-      .catch((err) => err)    
-      
-      return res;
-    } catch (error) {
-      console.log(error)
-    }
+//create function to getImage
+
+const getPhotoId =  async (id, token) =>{
+  const config = requestConf("GET" , null, token) 
+   try {
+     const res = await fetch(api + "/photos/user/" + id , config)
+     .then((res) => res.json())
+     .catch((err) => err)    
+     
+     return res;
+   } catch (error) {
+     console.log(error)
+   }
 }
+
+//create function to deleted photo!!
+
+const deletedUser = async() => {
+
+}
+
 
 
 
