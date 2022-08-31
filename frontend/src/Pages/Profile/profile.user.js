@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import "./profile.css"
 import Message from '../../Component/message'
 
@@ -11,7 +11,8 @@ import {useState, useEffect, useRef} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { getUserId } from '../../slices/userSlice'
-import { publishPhoto, resetMessage } from '../../slices/photoSlice'
+import { publishPhoto, resetMessage, getUserPhoto } from '../../slices/photoSlice'
+import { useCallback } from 'react'
 
 
 const ProfileUser = () => {
@@ -20,12 +21,16 @@ const ProfileUser = () => {
     const dispatch = useDispatch()
     const {user ,loading}= useSelector((state) => state.user) 
     const {user: userAuth} = useSelector((state) => state.auth)
-    const {photo,
+    
+    const {photos,
       loading: loadingPhoto , 
       message: messagePhoto, 
-      error: errorPhoto} = useSelector ((state) => state.photo)
+      error: errorPhoto} = useSelector((state) => state.photo)
      
-
+      
+     
+    console.log('photo here', photos)
+    
     const [title, setTitle] = useState("")
     const [image, setImage] = useState("")
     
@@ -36,6 +41,7 @@ const ProfileUser = () => {
     //loading user date!
     useEffect(() => {
       dispatch(getUserId(id))
+      dispatch(getUserPhoto(id))
     },[dispatch,id])
    
 
@@ -118,7 +124,41 @@ const ProfileUser = () => {
          
            </form>
          </div>
-        </>) }
+        </>)}
+
+
+        <div className='user-photo' >
+          <h2> Fotos publicadas: </h2>
+           <div className='photos-container' >
+            {photos && photos.map((photo) => (
+            <div className='photo' key={photo._id}>
+            
+             {photo.image && ( 
+              <img src={`${uploads}/photos/${photo.image}`} 
+              alt={photo.title} /> 
+              )}
+
+
+              {id === userAuth._id ? (
+               <div className='actions' >
+                 <Link to={`/photos/${photo._id}`} >
+                   <BsFillEyeFill/>  
+                
+                 </Link> 
+                   <BsPencilFill/>
+                   <BsXLg/>
+                   
+               </div>
+                ) : (<Link className='btn' to={`/photos/${photo._id}`} >Ver.</Link> 
+              )}
+             
+
+
+            </div> ))}
+
+            { photos.length === 0 && <p>Nenhuma foto aqui!</p> }
+          </div> 
+      </div>
 
     </div> )
 }
