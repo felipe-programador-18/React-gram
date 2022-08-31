@@ -11,8 +11,8 @@ import {useState, useEffect, useRef} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { getUserId } from '../../slices/userSlice'
-import { publishPhoto, resetMessage, getUserPhoto } from '../../slices/photoSlice'
-import { useCallback } from 'react'
+import { publishPhoto, resetMessage, getUserPhoto, DeletedPhoto } from '../../slices/photoSlice'
+
 
 
 const ProfileUser = () => {
@@ -26,10 +26,6 @@ const ProfileUser = () => {
       loading: loadingPhoto , 
       message: messagePhoto, 
       error: errorPhoto} = useSelector((state) => state.photo)
-     
-      
-     
-    console.log('photo here', photos)
     
     const [title, setTitle] = useState("")
     const [image, setImage] = useState("")
@@ -38,13 +34,21 @@ const ProfileUser = () => {
     const newPhotoForm = useRef()
     const editPhotoUser = useRef()
     
+
+    const resetComponent = () => {
+      setTimeout(() => {
+        dispatch(resetMessage());
+       },2000)
+    }
+
+
+
     //loading user date!
     useEffect(() => {
       dispatch(getUserId(id))
       dispatch(getUserPhoto(id))
     },[dispatch,id])
    
-
     const HandSubmit = (e) => {
       e.preventDefault()
 
@@ -53,26 +57,28 @@ const ProfileUser = () => {
          image
       }
       //build from dates!!  
-      
       const formData = new FormData()
       const PhotoFormData = Object.keys(photoData).forEach((key) => 
       formData.append(key, photoData[key])
       )
         
       formData.append("photo", PhotoFormData) 
-       dispatch(publishPhoto(formData))
+      dispatch(publishPhoto(formData))
       setTitle("")
 
-      // later two second be disappear delay
-      setTimeout(() => {
-       dispatch(resetMessage());
-      },2000)
+      // Adding function to give delay in application!!
+      resetComponent()
     }
     
     const HandleFile = (e) => {
        // set Image state
       const image = e.target.files[0]
       setImage(image)
+    }
+
+    const HandDeleted = (id) => {
+     dispatch(DeletedPhoto(id))
+     resetComponent()
     }
 
 
@@ -146,7 +152,7 @@ const ProfileUser = () => {
                 
                  </Link> 
                    <BsPencilFill/>
-                   <BsXLg/>
+                   <BsXLg onClick={() => HandDeleted(photo._id) } />
                    
                </div>
                 ) : (<Link className='btn' to={`/photos/${photo._id}`} >Ver.</Link> 
