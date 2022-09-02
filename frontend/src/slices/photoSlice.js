@@ -15,7 +15,6 @@ const initialState ={
 // creating function to adding photo
 export const publishPhoto = createAsyncThunk("photo/publish",
  async(photo, thunkAPI) => {
-  
    const token = thunkAPI.getState().auth.user.token;
    const data =  await photoService.publishPhoto(photo, token)
  
@@ -48,6 +47,44 @@ async(id, thunkAPI) => {
     }
     return data;
 })
+
+//creating edit slice photo
+export const EditPhoto = createAsyncThunk("photo/editphoto",
+ async(photoData, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+    const data = await photoService.EditPhoto({ title: photoData.title}
+        ,photoData.id,token)
+     
+    if(data.errors){
+        return thunkAPI.rejectWithValue(data.errors[0])
+    }
+    return data;
+ }
+)
+
+
+//getPhoto byId
+export const getUserPhotoId = createAsyncThunk("getphoto/photouserid", 
+async(id,thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token; 
+    const data = await photoService.GetUserId(id,token)
+    return data;
+}
+)
+
+//creating function to adding like here
+export const likeHere = createAsyncThunk("photoLike/likephoto",
+async(id, thunkAPI) => {
+   const token = thunkAPI.getState().auth.user.token;
+   const data = await photoService.CreateLike(id,token)
+   
+   if(data.errors){
+    return thunkAPI.rejectWithValue(data.errors[0])
+   }
+   
+   return data;
+}
+)
 
 
 
@@ -98,6 +135,52 @@ export const photoSlice =  createSlice({
             state.loading = false;
             state.error = action.payload;
             state.photo ={};
+        }).addCase(EditPhoto.pending, (state) => {
+            state.loading = true;
+            state.error = false;
+        }).addCase(EditPhoto.fulfilled, (state,action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            
+            state.photos.map((photo) => {
+             if(photo._id === action.payload.photo._id){
+                return photo.title = action.payload.photo.title   
+                }
+                return photo;
+            })
+            state.message = action.payload.message
+        }).addCase(EditPhoto.rejected, (state,action) => {
+            state.loading = false;
+            state.error = action.payload;
+            state.photo ={};
+        }).addCase(getUserPhotoId.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        }).addCase(getUserPhotoId.fulfilled, (state,action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            state.photo = action.payload;
+        }).addCase(likeHere.fulfilled, (state,action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+
+            if(state.photo.likes){
+                state.photo.likes.push(action.payload.userId)
+            }
+            
+            state.photos.map((photo) => {
+             if(photo._id === action.payload.photoId){
+                return photo.likes.push(action.payload.userId)  
+                }
+                return photo;
+            })
+            state.message = action.payload.message
+        }).addCase(likeHere.rejected, (state,action) => {
+            state.loading = false;
+            state.error = action.payload;
         })
      }   
 })
