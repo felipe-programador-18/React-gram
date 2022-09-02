@@ -63,6 +63,39 @@ const EditPhoto = async(data,id, token) => {
     console.log(err)
   }
 
+}
+
+//creating function to get userid
+const GetUserId = async (id, token) => {
+   
+  const config = requestConf("GET", null, token)
+  try {
+    const res = await fetch(api + "/photos/" +id, config)
+    .then((res) => res.json())
+    .catch((err) => err)
+
+    return res;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+//create like function
+const CreateLike = async (id,token) => {
+  
+  const config = requestConf("PUT", null, token) 
+
+  try { 
+    const res = await fetch(api + "/photos/like/" +id, config)
+    .then((res) => res.json())
+    .catch((err) => err)
+     
+    return res;
+
+  } catch (error) {
+    console.log(error)
+  }
 
 }
 
@@ -72,7 +105,9 @@ const photoService = {
     publishPhoto,
     getPhotoId,
     deletedPhoto,
-    EditPhoto
+    EditPhoto,
+    GetUserId,
+    CreateLike
 }
 
 export default photoService;
