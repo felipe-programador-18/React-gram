@@ -19,6 +19,7 @@ import Edit from './Pages/Editprofile/edit';
 //components!!
 import Navbar from './Component/navbar';
 import Footer from './Component/footer';
+import PhotoUser from './Pages/Photo/Photo';
 
 
 
@@ -53,6 +54,7 @@ function App() {
            
            <Route path='/register' element={!auth ? <RegisterAnother/> : <Navigate to='/'/> }   />
            
+           <Route  path='/photos/:id' element={ auth ? <PhotoUser/> : <Navigate to='/login' /> } />
 
          </Routes> 
        </div>
