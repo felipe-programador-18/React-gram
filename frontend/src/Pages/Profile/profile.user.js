@@ -11,7 +11,12 @@ import {useState, useEffect, useRef} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { getUserId } from '../../slices/userSlice'
-import { publishPhoto, resetMessage, getUserPhoto, DeletedPhoto } from '../../slices/photoSlice'
+import { 
+   publishPhoto,
+   resetMessage, 
+   getUserPhoto,
+   DeletedPhoto,
+   EditPhoto } from '../../slices/photoSlice'
 
 
 
@@ -30,19 +35,21 @@ const ProfileUser = () => {
     const [title, setTitle] = useState("")
     const [image, setImage] = useState("")
     
+    const [editId, setEditId] = useState("")
+    const[editImage, setEditImage] = useState("")
+    const [editTitle, setEditTitle ] = useState("")
+    
+    
     //photo and new edit referred
     const newPhotoForm = useRef()
     const editPhotoUser = useRef()
     
-
     const resetComponent = () => {
       setTimeout(() => {
         dispatch(resetMessage());
        },2000)
     }
-
-
-
+   
     //loading user date!
     useEffect(() => {
       dispatch(getUserId(id))
@@ -80,7 +87,42 @@ const ProfileUser = () => {
      dispatch(DeletedPhoto(id))
      resetComponent()
     }
+   
+    // show or hide photo!!
+    const ShowOrHide = () => {
+     newPhotoForm.current.classList.toggle("hide")
+     editPhotoUser.current.classList.toggle("hide")
+    }
+  
+    //update photo
+    const HandUpdatePhoto = (e) => {
+      e.preventDefault()
+       
+      const photoData = {
+        title: editTitle,
+        id: editId
+      }
 
+      dispatch(EditPhoto(photoData))
+      resetComponent()
+
+    }
+    
+    // here verify if my form was opened or closed
+    const HandEdit = (photo) => {
+     if(editPhotoUser.current.classList.contains("hide")){
+      ShowOrHide()
+     }
+
+     setEditId(photo._id)
+     setEditTitle(photo.title)
+     setEditImage(photo.image)
+    }
+    
+    //verify if i form called 
+    const HandCanEdit = (e) => {
+      ShowOrHide()
+    }
 
     if(loading){
         return <p>Carregando profile....</p>
@@ -95,9 +137,6 @@ const ProfileUser = () => {
          <h2>{user.name}</h2>
          <p>{user.bio}</p>
         </div>
-
-
-
      </div>   
 
         {id === userAuth._id && (<>
@@ -120,21 +159,46 @@ const ProfileUser = () => {
                  onChange={HandleFile}
                  />
              </label>
-                {!loadingPhoto && <input type="submit" value='Postar' /> }
 
+                {!loadingPhoto && <input type="submit" value='Postar' /> }
                 {loadingPhoto && <input type="submit" value='Aguarde ....' /> }   
 
                 {errorPhoto &&  <Message msg={errorPhoto} type='error' />}
+                      
+             
 
-                {messagePhoto &&  <Message msg={messagePhoto} type='success' />}        
-         
            </form>
          </div>
+          
+
+         <div className='edit-photo hide' ref={editPhotoUser} >
+           <p>Editando:</p>
+             {editImage && (<> 
+              <img src={`${uploads}/photos/${editImage}`} alt={editImage} />
+           </>)}
+           
+          <form onSubmit={HandUpdatePhoto}>
+         
+            <input type="text" 
+              value={editTitle || ""}  
+              placeholder='Edite seu Texto...'
+              onChange={(e) => setEditTitle(e.target.value)} 
+            />
+            <input type="submit" value='Atualizar' />
+            <button className='cancel-btn' onClick={HandCanEdit}>      Cancelar Edição.
+            </button>
+          </form>
+          {errorPhoto &&  <Message msg={errorPhoto} type='error' />}
+
+          {messagePhoto &&  <Message msg={messagePhoto} type='success' />} 
+        </div> 
+
         </>)}
 
-
+  
         <div className='user-photo' >
           <h2> Fotos publicadas: </h2>
+           
            <div className='photos-container' >
             {photos && photos.map((photo) => (
             <div className='photo' key={photo._id}>
@@ -151,15 +215,13 @@ const ProfileUser = () => {
                    <BsFillEyeFill/>  
                 
                  </Link> 
-                   <BsPencilFill/>
+                   <BsPencilFill onClick={() => HandEdit(photo) } />
                    <BsXLg onClick={() => HandDeleted(photo._id) } />
                    
                </div>
                 ) : (<Link className='btn' to={`/photos/${photo._id}`} >Ver.</Link> 
               )}
              
-
-
             </div> ))}
 
             { photos.length === 0 && <p>Nenhuma foto aqui!</p> }
