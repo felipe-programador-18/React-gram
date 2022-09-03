@@ -87,23 +87,29 @@ async(id, thunkAPI) => {
 )
 
 // comments slice
-export const commentsId = createAsyncThunk("comments/photocomments",
-async(CommentData, thunkAPI) => {
+export const comment = createAsyncThunk("photo/comment",
+async(photoData, thunkAPI) => {
    const token = thunkAPI.getState().auth.user.token;
-   const data = await photoService.ServiceComments(
-    {comment: CommentData.comment}
-    ,CommentData.id
+   
+   const data = await photoService.comment(
+    {comment: photoData.comment},
+    photoData.id
     ,token)
 
   if(data.errors){
     return thunkAPI.rejectWithValue(data.errors[0])
   }
-  
   return data;
-
 }
 )
 
+// get all photo
+export const getAllPhoto = createAsyncThunk("getallphoto/allphoto",
+ async() => {
+     const data = await photoService.getAllPhoto()
+     return data ;
+ }
+)
 
 
 export const photoSlice =  createSlice({
@@ -199,7 +205,7 @@ export const photoSlice =  createSlice({
         }).addCase(likeHere.rejected, (state,action) => {
             state.loading = false;
             state.error = action.payload;
-        }).addCase(commentsId.fulfilled, (state,action) => {
+        }).addCase(comment.fulfilled, (state,action) => {
             state.loading = false;
             state.success = true;
             state.error = null;
@@ -207,9 +213,17 @@ export const photoSlice =  createSlice({
             state.photo.comments.push(action.payload.comment)
           
             state.message = action.payload.message
-        }).addCase(commentsId.rejected, (state,action) => {
+        }).addCase(comment.rejected, (state,action) => {
             state.loading = false;
             state.error = action.payload;
+        }).addCase(getAllPhoto.pending, (state) => {
+            state.loading = true;
+            state.error = false;
+        }).addCase(getAllPhoto.fulfilled, (state,action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            state.photos = action.payload;
         })
      }   
 })
