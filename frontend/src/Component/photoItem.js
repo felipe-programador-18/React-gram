@@ -10,8 +10,7 @@ const PhotoItem = ({ photo }) => {
   console.log("photo here now", photo)
 
     return(<div className='photo-item' >
-        <h1>Foto do usuário</h1>
-
+      
        {photo.image && (
            <img src={`${uploads}/photos/${photo.image}`} alt={photo.title}/>
         )}  
