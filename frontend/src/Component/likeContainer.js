@@ -1,12 +1,10 @@
 import React from 'react'
 import "./like.container.css"
-
 import { BsHeart, BsHeartFill } from 'react-icons/bs'
 
 
 
 const Like = ({photo, user, handleLike }) =>{
-
 
 return(<div className='like' >
       {photo.likes && user && (<>
@@ -18,6 +16,7 @@ return(<div className='like' >
 
         <p>  {photo.likes.length}  like(s).  </p>
       </>)}  
+         
 
 </div>)
 
