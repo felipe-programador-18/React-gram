@@ -99,11 +99,11 @@ const CreateLike = async (id,token) => {
 }
 
 //comments service
-const ServiceComments = async (data, id,token) => {  
+const comment = async (data, id,token) => {  
   const config = requestConf("PUT", data,token)
 
   try {
-    const res = await fetch(api + "/photos/comment/" +id ,config)
+    const res = await fetch(api + "/photos/comment/" + id ,config)
     .then((res) => res.json())
     .catch((err) => err)
     
@@ -113,7 +113,19 @@ const ServiceComments = async (data, id,token) => {
   }
 }
 
-
+//create allphoto service
+const getAllPhoto = async() => {
+ 
+  const config = requestConf("GET")
+  try{
+    const res = await fetch(api + "/photos", config)
+     .then((res) => res.json())
+     .catch((err) => err)
+     return res;
+  }catch(err){
+    console.log(err)
+  }
+}
 
 
 const photoService = {
@@ -123,7 +135,8 @@ const photoService = {
     EditPhoto,
     GetUserId,
     CreateLike,
-    ServiceComments
+    comment,
+    getAllPhoto 
 }
 
 export default photoService;
