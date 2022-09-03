@@ -96,8 +96,23 @@ const CreateLike = async (id,token) => {
   } catch (error) {
     console.log(error)
   }
-
 }
+
+//comments service
+const ServiceComments = async (data, id,token) => {  
+  const config = requestConf("PUT", data,token)
+
+  try {
+    const res = await fetch(api + "/photos/comment/" +id ,config)
+    .then((res) => res.json())
+    .catch((err) => err)
+    
+    return res;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 
 
 
@@ -107,7 +122,8 @@ const photoService = {
     deletedPhoto,
     EditPhoto,
     GetUserId,
-    CreateLike
+    CreateLike,
+    ServiceComments
 }
 
 export default photoService;
