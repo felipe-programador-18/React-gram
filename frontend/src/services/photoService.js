@@ -114,9 +114,9 @@ const comment = async (data, id,token) => {
 }
 
 //create allphoto service
-const getAllPhoto = async() => {
+const getAllPhoto = async(token) => {
  
-  const config = requestConf("GET")
+  const config = requestConf("GET", null ,token)
   try{
     const res = await fetch(api + "/photos", config)
      .then((res) => res.json())
