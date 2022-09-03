@@ -1,12 +1,16 @@
 .photo-item img {
-  width: 100%;
- 
+  width: 50%;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  margin-bottom: 10px;
 }
 
 
-h2{
+h2 {
     text-align: center;
 }
+
 
 #home .photo-item h2 {
   margin-bottom: 0.2em;
