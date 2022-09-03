@@ -22,8 +22,8 @@ const PhotoUser = () => {
 
   const {user} = useSelector((state) => state.auth)
   const {photo, loading, error, message} = useSelector((state) => state.photo)
-  const {error: AnotherError} = useSelector((state) => state.auth)
-
+  
+  
   //comments here
   const [commentText, setCommentsText] = useState("")
 
