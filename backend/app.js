@@ -27,11 +27,6 @@ const { dirname } = require("path")
 app.use(route)
 
 
-
-
-
-
-
 app.listen( port, () => {
    console.log(`listing in the port ${port}`)     
 })
