@@ -183,10 +183,9 @@ const LikeFunctionality = async(req, res) => {
 const createdComments = async(req,res) => {
   const {id} = req.params;
   const {comment } = req.body;
-  console.log("have somethings here ??", comment)
+  
   const reqUser= req.user ;
   
-  try{
     const user = await User.findById(reqUser._id)
     const photo = await PhotoUser.findById(id)
     
@@ -203,16 +202,12 @@ const createdComments = async(req,res) => {
     }
    
     photo.comments.push(userComment)
-   
-   await photo.save()
+    await photo.save()
 
-    res.status(200).json({comment:userComment,
-     message:"comentário foi adicionado com sucesso"})
+   res.status(200).json({comment:userComment,
+    message:"comentário foi adicionado com sucesso"})
 
-  }catch(err){
-    res.status(422).json({errors:["Erro ao fazer o comentário, por favor tente mais tarde!!"]})
-    return ;
-  }
+  
 }
 
 
