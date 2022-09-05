@@ -51,11 +51,12 @@ function App() {
         
            <Route  path='/users/:id' element={ auth ? <ProfileUser/> : <Navigate to="/login" /> }  />
 
+           <Route path='/search' element={ auth ?  <SearchDates/> : <Navigate to='/login' />  }   />
+           
            <Route path='/login' element={ !auth ?  <LoginUser/> : <Navigate to='/' />} />
            
            <Route path='/register' element={!auth ? <RegisterAnother/> : <Navigate to='/'/> }   />
            
-           <Route path='/search' element={ auth ?  <SearchDates/> : <Navigate to='/login' />  }   />
            
            <Route  path='/photos/:id' element={ auth ? <PhotoUser/> : <Navigate to='/login' /> } />
             
