@@ -112,6 +112,19 @@ export const getAllPhoto = createAsyncThunk("getallphoto/allphoto",
  }
 )
 
+// creating search slice user by id !!
+export const SearchPhoto = createAsyncThunk("photo/search",
+ async(query, thunkAPI) => {
+   const token = thunkAPI.getState().auth.user.token ;
+   const data = await photoService.SearchPhoto(query,token)    
+   console.log(data)
+   
+   return data ;
+ }
+)
+
+
+
 
 export const photoSlice =  createSlice({
     name:"photo" ,
@@ -221,6 +234,14 @@ export const photoSlice =  createSlice({
             state.loading = true;
             state.error = false;
         }).addCase(getAllPhoto.fulfilled, (state,action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            state.photos = action.payload;
+        }).addCase(SearchPhoto.pending, (state) => {
+            state.loading = true;
+            state.error = false;
+        }).addCase(SearchPhoto.fulfilled, (state,action) => {
             state.loading = false;
             state.success = true;
             state.error = null;
