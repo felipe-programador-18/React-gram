@@ -34,6 +34,7 @@ const Navbar = () => {
    if(query){
     return navigate(`/search?q=${query}`)
    }
+   setQuery("")
   }
 
 
@@ -43,7 +44,7 @@ const Navbar = () => {
       
       <form  id='search-form'onSubmit={HandSearch}  >
         <BsSearch />
-        <input type='text' placeholder='Pesquisar' value={query} onChange={(e) => setQuery(e.target.value) } />
+        <input type='text' placeholder='Pesquisar' onChange={(e) => setQuery(e.target.value) } />
       </form>
 
       <ul id='nav-links' >
