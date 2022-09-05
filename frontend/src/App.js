@@ -20,6 +20,7 @@ import Edit from './Pages/Editprofile/edit';
 import Navbar from './Component/navbar';
 import Footer from './Component/footer';
 import PhotoUser from './Pages/Photo/Photo';
+import SearchDates from './Pages/Search/search';
 
 
 
@@ -54,8 +55,12 @@ function App() {
            
            <Route path='/register' element={!auth ? <RegisterAnother/> : <Navigate to='/'/> }   />
            
+           <Route path='/search' element={ auth ?  <SearchDates/> : <Navigate to='/login' />  }   />
+           
            <Route  path='/photos/:id' element={ auth ? <PhotoUser/> : <Navigate to='/login' /> } />
-
+            
+         
+         
          </Routes> 
        </div>
        
