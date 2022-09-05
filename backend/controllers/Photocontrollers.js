@@ -220,7 +220,7 @@ const searchPhoto = async (req,res) => {
   const photos = await PhotoUser.find({title: new RegExp(q,'i')}).exec()
   console.log('my photos here', photos)
 
-  res.status(200).json({photos})  
+  res.status(200).json(photos);  
 
 }
 
