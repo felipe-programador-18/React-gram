@@ -110,7 +110,6 @@ const GetUserId = async(req, res) => {
    res.status(422).json({errors:["Ocorreu um erro, por favor tente mais tarde"]})
   }
   
-
 }
 
 //creating function to photo updated
