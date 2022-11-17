@@ -154,7 +154,7 @@ const LikeFunctionality = async(req, res) => {
     const photo = await PhotoUser.findById(id)
     //verify with user if not exist
     if(!photo){
-      res.status(404).json({erros: ['Foto Não encontrada!']})
+      res.status(404).json({errors: ['Foto Não encontrada!']})
       return ;
     }
     
@@ -222,12 +222,6 @@ const searchPhoto = async (req,res) => {
   res.status(200).json(photos);  
 
 }
-
-
-
-
-
-
 
 module.exports = {
     InsertPhoto,
