@@ -14,7 +14,7 @@ const AuthGuard = async (req, res, next) =>{
     // now i need check my token is validate!!
      
     try{
-      const verified = await jwt.verify(token, jwtSecret);
+      const verified =  jwt.verify(token, jwtSecret);
       req.user = await User.findById(verified.id).select("-password")
       next();
     }catch(error){
