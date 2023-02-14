@@ -6,7 +6,9 @@ const dbPassword = process.env.DB_SENHA;
 
 const conn = async () => {
     try {
-       const dbConn = await mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.re7jn.mongodb.net/?retryWrites=true&w=majority`)
+       const dbConn = await mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.fvnrqkq.mongodb.net/?retryWrites=true&w=majority`)
+
+
 
        console.log("connected in the database!") 
       return dbConn
