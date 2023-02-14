@@ -105,11 +105,11 @@ async(photoData, thunkAPI) => {
 
 // get all photo
 export const getAllPhoto = createAsyncThunk("getallphoto/allphoto",
- async(_,thunkAPI) => {
-     const token = thunkAPI.getState().auth.user.token;
-     const data = await photoService.getAllPhoto(token)
-     return data ;
- }
+async(_,thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+    const data = await photoService.getAllPhoto(token)
+    return data ;
+}
 )
 
 // creating search slice user by id !!
