@@ -140,7 +140,7 @@ const ProfileUser = () => {
      </div>   
 
         {id === userAuth._id && (<>
-        <div className='new-photo' ref={newPhotoForm} >
+         <div className='new-photo' ref={newPhotoForm} >
          <h3>Compartilhe algum momento Seu:</h3>
            <form onSubmit={HandSubmit}>
              <label >
@@ -191,7 +191,7 @@ const ProfileUser = () => {
           {errorPhoto &&  <Message msg={errorPhoto} type='error' />}
 
           {messagePhoto &&  <Message msg={messagePhoto} type='success' />} 
-        </div> 
+         </div> 
 
         </>)}
 
