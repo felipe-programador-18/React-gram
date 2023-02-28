@@ -89,7 +89,7 @@ const login = async  (req,res) => {
 
 const getCurrentUser = async  (req, res) => {
     const user = await req.user
-    console.log("user testing", user)
+    console.log("my currently user its here", user)
     res.status(200).json(user)
 
 }
@@ -139,7 +139,6 @@ const update = async (req,res) => {
 }
 
 //create all function to getUser by id!
-
 const getUserById = async (req, res) => {
    
   const {id}= req.params;
