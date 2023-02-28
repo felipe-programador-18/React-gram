@@ -18,7 +18,6 @@ const publishPhoto = async (data, token) => {
 
 
 //create function to getImage
-
 const getPhotoId =  async (id, token) =>{
   const config = requestConf("GET" , null, token) 
    try {
