@@ -31,7 +31,7 @@ const Edit = () => {
    dispatch(profile())
   },[dispatch])
   
-  // fill field!!
+  
   useEffect(() => {
     if(user) {
         setName(user.name)
