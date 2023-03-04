@@ -2,7 +2,6 @@ import { api ,  requestConf } from '../utils/config'
 
 
 //publish user !!
-
 const publishPhoto = async (data, token) => {
     const config = requestConf("POST",data,token,true)
     try {
